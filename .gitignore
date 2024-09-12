@@ -1,0 +1,13 @@
+.DS_Store
+
+# Binaries for programs and plugins
+lambda/*.exe
+lambda/*.exe~
+lambda/*.dll
+lambda/*.so
+lambda/*.dylib
+lambda/bootstrap
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out
