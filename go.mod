@@ -1,4 +1,4 @@
-module github.com/dorianneto/media-metadata
+module github.com/dorianneto/go-lambda-blueprint
 
 go 1.23.1
 

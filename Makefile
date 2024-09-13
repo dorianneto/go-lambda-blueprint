@@ -1,17 +1,17 @@
-cdkProfile = --profile media-metadata
+awsProfile = --profile go-lambda-blueprint
 
 build:
-	@cd lambda && GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o bootstrap . && mv bootstrap ./bootstrap
+	GOOS=linux GOARCH=amd64 go build -C ./lambda -ldflags="-s -w" -o bootstrap .
 local:
 	@$(MAKE) build && $(MAKE) synth
-	sam local start-api -t cdk.out/MediaMetadataStack.template.json ${cdkProfile}
+	sam local start-api -t ./cdk.out/HelloWorldStack.template.json ${awsProfile}
 bootstrap:
-	cdk bootstrap ${cdkProfile}
+	cdk bootstrap ${awsProfile}
 destroy:
-	cdk destroy ${cdkProfile}
+	cdk destroy ${awsProfile}
 synth:
-	cdk synth ${cdkProfile}
+	cdk synth ${awsProfile}
 diff:
-	cdk diff ${cdkProfile}
+	cdk diff ${awsProfile}
 deploy:
-	cdk deploy ${cdkProfile}
+	$(MAKE) build && $(MAKE) synth && cdk deploy ${awsProfile}

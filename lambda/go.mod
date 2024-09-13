@@ -1,4 +1,4 @@
-module lambda-fn
+module github.com/dorianneto/go-lambda-blueprint/lambda
 
 go 1.23.1
 

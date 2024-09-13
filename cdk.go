@@ -8,28 +8,28 @@ import (
 	"github.com/aws/jsii-runtime-go"
 )
 
-type MediaMetadataStackProps struct {
+type HelloWorldStackProps struct {
 	awscdk.StackProps
 }
 
-func MediaMetadataStack(scope constructs.Construct, id string, props *MediaMetadataStackProps) awscdk.Stack {
+func HelloWorldStack(scope constructs.Construct, id string, props *HelloWorldStackProps) awscdk.Stack {
 	var sprops awscdk.StackProps
 	if props != nil {
 		sprops = props.StackProps
 	}
 	stack := awscdk.NewStack(scope, &id, &sprops)
 
-	lambdaFn := awslambda.NewFunction(stack, jsii.String("mediaMetadataLambdaFn"), &awslambda.FunctionProps{
+	lambdaFn := awslambda.NewFunction(stack, jsii.String("helloWorldLambdaFn"), &awslambda.FunctionProps{
 		Runtime: awslambda.Runtime_PROVIDED_AL2023(),
 		Code:    awslambda.Code_FromAsset(jsii.String("./lambda"), nil),
 		Handler: jsii.String("bootstrap"),
 	})
 
-	apiGateway := awsapigateway.NewRestApi(stack, jsii.String("mediaMetadataApiGateway"), nil)
+	apiGateway := awsapigateway.NewRestApi(stack, jsii.String("helloWorldApiGateway"), nil)
 	integration := awsapigateway.NewLambdaIntegration(lambdaFn, nil)
 
-	metadata := apiGateway.Root().AddResource(jsii.String("metadata"), nil)
-	metadata.AddMethod(jsii.String("POST"), integration, nil)
+	helloWorldResource := apiGateway.Root().AddResource(jsii.String("hello-world"), nil)
+	helloWorldResource.AddMethod(jsii.String("GET"), integration, nil)
 
 	return stack
 }
@@ -39,7 +39,7 @@ func main() {
 
 	app := awscdk.NewApp(nil)
 
-	MediaMetadataStack(app, "MediaMetadataStack", &MediaMetadataStackProps{
+	HelloWorldStack(app, "HelloWorldStack", &HelloWorldStackProps{
 		awscdk.StackProps{
 			Env: env(),
 		},
